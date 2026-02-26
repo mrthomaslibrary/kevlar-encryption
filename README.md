@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-##kevlar-encryption -> _IN PROGRESS_
-=======
-# kevlar-encryption -> _IN PROGRESS_
-Encryption Software
 ## Kevlar-encryption -> _IN PROGRESS_
->>>>>>> 28ebc777824227446177c3066eff0c06da7de7c1
 
 Lightweight Encryption Software | Jamie Scott & Gus Ballman
 
@@ -30,24 +24,6 @@ cd kevlar-encryption
 make install
 ```
 ---
-<<<<<<< HEAD
-
-# kevlar-encryption
-Encryption Software
-
-# To Install
--git clone <link>
--cd into repo directory 
--run the following:
-$ make
-
-## Documentation
-Kevlar Encryption
-+Create Keys     |   -c <key-names>
-+Encrypt File    |   -e <plaintext> <public-key> <outfile-name>
-+Decrypt File    |   -d <encrypted-file> <private-key> <outfile-name>
-+Help            |   -h Prints This Message
-=======
 # Documentation
 ```
 Kevlar Encryption
@@ -57,7 +33,6 @@ Kevlar Encryption
     Help            |   -h Prints This Message
 ```
 
->>>>>>> 28ebc777824227446177c3066eff0c06da7de7c1
 
 
 ---
