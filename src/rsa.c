@@ -41,24 +41,30 @@ int isPrime(int n) {
 }
 
 void createCharKey(uint64_t* e, uint64_t* d) {
-  uint32_t p = nthPrime(rand() % BASIS + 1);
-  uint32_t q = nthPrime(rand() % BASIS + 1);
+  
+  uint32_t p, q; 
+  uint64_t n, phi = (p - 1) * (q - 1);
 
-  uint64_t n = p * q;
-  uint64_t phi = totient(n);
+  do {
+    p = nthPrime(rand() % BASIS + 1);
+    q = nthPrime(rand() % BASIS + 1);
+    n = p*q;
+    phi = (uint64_t)(p - 1) * (uint64_t)(q - 1);
 
-   do {
+   
     *e = nthPrime(rand() % 1000 + 1);
-    //printf("error %d, %d\n", p, q);
-  } while (!(2 < *e) || !(*e < phi));
+    
+  } while (gcd(*e, phi) != 1);
+
+  *d = get_decryption_key(*e, phi);
 }
 
 uint64_t get_decryption_key(uint64_t e, uint64_t phi) {
     int64_t d, y;
     uint64_t g = extended_gcd((int64_t)e, (int64_t)phi, &d, &y);
 
-    if (g != 1) {   return -1;  }
-    else {  return (d % phi + phi) % phi;  }
+    if (g != 1) {   return 0;  }
+    else {  return (uint64_t)(d % (int64_t)phi + (int64_t)phi) % (int64_t)phi;  }
 }
 
 int64_t extended_gcd(int64_t a, int64_t b, int64_t *x, int64_t *y) {
@@ -92,8 +98,8 @@ void createKeys(char* name) {
     for (int i = 0; i < 256; i++) {
        uint64_t e, d;
        createCharKey(&e, &d);
-       fprintf(publicKey, "%" PRIu64 "\n", e);
-       fprintf(privateKey, "%" PRIu64 "\n", d);
+       fprintf(publicKey, "%" PRIu64 " ", e);
+       fprintf(privateKey, "%" PRIu64 " ", d);
     }
     fclose(publicKey);
     fclose(privateKey);
