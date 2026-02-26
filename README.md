@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-=======
-##kevlar-encryption -> _IN PROGRESS_
+## Kevlar-encryption -> _IN PROGRESS_
 
 Lightweight Encryption Software | Jamie Scott & Gus Ballman
 
@@ -16,10 +14,9 @@ Lightweight Encryption Software | Jamie Scott & Gus Ballman
   
 + Kevlar is inspired by RSA and ElGammal encryptions and is an asymmetrical encryption.
 
----
++ [Monolithic ARM Kernel Project can be found here](https://github.com/GusBallmanjr/ARM-Monolithic-Kernel)
 
-# kevlar-encryption
-Encryption Software
+---
 
 # To Install
 -git clone <link>
@@ -27,15 +24,14 @@ Encryption Software
 -run the following:
 $ make
 
+---
+
 # Documentation
-Kevlar Encryption
+**Kevlar Encryption**
     Create Keys     |   -c <key-names>
     Encrypt File    |   -e <plaintext> <public-key> <outfile-name>
     Decrypt File    |   -d <encrypted-file> <private-key> <outfile-name>
     Help            |   -h Prints This Message
 
-
 ---
-
-[Monolithic ARM Kernel Project can be found here](https://github.com/GusBallmanjr/ARM-Monolithic-Kernel)
 >>>>>>> 2ae853cbe17d3fbf8ebeaca15e5f0b61eb9be31a
