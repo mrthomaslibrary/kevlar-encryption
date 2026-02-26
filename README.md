@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 ##kevlar-encryption -> _IN PROGRESS_
 
 Lightweight Encryption Software | Jamie Scott & Gus Ballman
@@ -27,12 +25,12 @@ Encryption Software
 -run the following:
 $ make
 
-# Documentation
+## Documentation
 Kevlar Encryption
-    Create Keys     |   -c <key-names>
-    Encrypt File    |   -e <plaintext> <public-key> <outfile-name>
-    Decrypt File    |   -d <encrypted-file> <private-key> <outfile-name>
-    Help            |   -h Prints This Message
++Create Keys     |   -c <key-names>
++Encrypt File    |   -e <plaintext> <public-key> <outfile-name>
++Decrypt File    |   -d <encrypted-file> <private-key> <outfile-name>
++Help            |   -h Prints This Message
 
 
 ---
