@@ -175,7 +175,7 @@ void encryptFile(char* infile, char* publicKey, char* outname) {
   FILE* outfile = fopen(encryptedname, "w");
 
   if (plaintext == NULL || encryptionKey == NULL || outfile == NULL) {
-    printf("Faile to open/create files\n");
+    printf("Failed to open/create files\n");
   } else {
 
     uint64_t e[BASE];
@@ -205,7 +205,7 @@ void encryptFile(char* infile, char* publicKey, char* outname) {
         //printf("%"PRIu64"\n", n[k % BASE]);
         uint64_t value = (uint64_t) (unsigned char) line[i];
         uint64_t index = modular_pow((uint64_t) value, e[k % keys_read], n[k % keys_read]);
-        printf("Char %d: Encrypting %" PRIu64 " with e=%" PRIu64 ", n=%" PRIu64 " -> Result: %"PRIu64"\n", k, value, e[k % keys_read], n[k % keys_read], index);
+        //printf("Char %d: Encrypting %" PRIu64 " with e=%" PRIu64 ", n=%" PRIu64 " -> Result: %"PRIu64"\n", k, value, e[k % keys_read], n[k % keys_read], index);
         fprintf(outfile, "%" PRIu64 " ", index);
         k += 1;
       }
@@ -227,7 +227,7 @@ void decryptFile(char* infile, char* privateKey, char* outname) {
   FILE* outfile = fopen(decryptedname, "w");
 
   if (cyphertext == NULL || decryptionKey == NULL || outfile == NULL) {
-    printf("Faile to open/create files\n");
+    printf("Failed to open/create files\n");
     if (cyphertext) fclose(cyphertext);
     if (decryptionKey) fclose(decryptionKey);
   } else {
@@ -258,7 +258,7 @@ void decryptFile(char* infile, char* privateKey, char* outname) {
         uint64_t val = strtoull(token, NULL, 10);
         //if (n[k % BASE] != 0) {
         uint64_t decrypted_val = modular_pow(val, d[k % keys_read], n[k % keys_read]);
-        printf("Char %d: Decrypting %" PRIu64 " with d=%" PRIu64 ", n=%" PRIu64 " -> Result: %"PRIu64"\n", k, val, d[k % keys_read], n[k % keys_read], decrypted_val);
+        //printf("Char %d: Decrypting %" PRIu64 " with d=%" PRIu64 ", n=%" PRIu64 " -> Result: %"PRIu64"\n", k, val, d[k % keys_read], n[k % keys_read], decrypted_val);
         fputc((char)decrypted_val, outfile);
         k += 1;
         token = strtok(NULL, " \n\r");
