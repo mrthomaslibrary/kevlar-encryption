@@ -13,7 +13,11 @@ HELP
 } Mode;
 
 void displayHelp(void) {
-  printf("Kevlar Encryption:\n\tSyntax goes here\n");
+  printf("Kevlar Encryption:\n");
+  printf("\tCreate Keys\t|\t-c <key-names>\n");
+  printf("\tEncrypt File\t|\t-e <plain-text> <public-key> <outfile-name>\n");
+  printf("\tDecrypt File\t|\t-d <encrypted-file> <private-key> <outfile-name>\n");
+  printf("\tHelp\t\t|\t-h Prints This Message\n");
 }
 
 void displaySyntaxError(void) {
