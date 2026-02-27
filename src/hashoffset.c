@@ -1,4 +1,4 @@
-#include "hashoffset.h"
+#include "../include/hashoffset.h"
 
 uint32_t nthPrime(int n) {
   if (n < 1) return -1;
