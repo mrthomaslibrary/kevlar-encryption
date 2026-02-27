@@ -14,7 +14,7 @@ Lightweight Encryption Software | Jamie Scott & Gus Ballman
   
 + Kevlar is inspired by RSA and ElGammal encryptions and is an asymmetrical encryption.
 
-+ [Monolithic ARM Kernel Project can be found here](https://github.com/GusBallmanjr/ARM-Monolithic-Kernel)
+  [Monolithic ARM Kernel Project can be found here](https://github.com/GusBallmanjr/ARM-Monolithic-Kernel)
 
 ## To Install
 If using ssh, then use the ssh clone command.
