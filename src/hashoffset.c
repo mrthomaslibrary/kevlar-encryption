@@ -1,5 +1,10 @@
 #include "../include/hashoffset.h"
 
+typedef enum rotate
+{
+  RIGHT = 0, LEFT = 1
+} Rotate;
+
 uint32_t nthPrime(int n) {
   if (n < 1) return -1;
     int count = 0;
@@ -76,3 +81,15 @@ uint32_t offsetCreation(char* password)
 {
     return hashToPrime(hashPassword(password));
 }
+
+uint32_t rotate(uint32_t num, uint32_t amount, Rotate direction) {
+  uint32_t result = 0;
+  if (direction == RIGHT) {
+    result = (num << direction) | (num >> (32 - amount));
+  }
+  else if (direction == LEFT) {
+    result = (num >> amount) | (num << (32 - amount));
+  }
+  return resukt;
+}
+
