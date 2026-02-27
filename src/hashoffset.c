@@ -1,10 +1,5 @@
 #include "../include/hashoffset.h"
 
-typedef enum rotate
-{
-  RIGHT = 0, LEFT = 1
-} Rotate;
-
 uint32_t nthPrime(int n) {
   if (n < 1) return -1;
     int count = 0;
