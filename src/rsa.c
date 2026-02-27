@@ -116,7 +116,7 @@ void createKeys(char* name, char* password) {
             uint64_t e, d, n;
             createCharKey(&e, &d, &n);
             fprintf(publicKey, "%" PRIu64 " %" PRIu64 " ", e, n);
-            fprintf(privateKey, "%" PRIu64 " %" PRIu64 " ", d << offset, n);
+            fprintf(privateKey, "%" PRIu64 " %" PRIu64 " ",  rotate(d, offset, LEFT), n);
         }
 
         fclose(publicKey);
@@ -225,7 +225,7 @@ void decryptFile(char* infile, char* privateKey, char* outname, char* password) 
             keys_read += 1;
             }
     }
-    d = d >> offset;
+     rotate(d, offset, RIGHT);
 
     int k = 0;
     while(fgets(line, sizeof(line), cyphertext)) {
