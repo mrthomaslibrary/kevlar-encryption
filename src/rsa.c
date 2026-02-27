@@ -23,29 +23,6 @@ long long long_gcd(long long n , long long m) {
   return gcd(m % n, n);
 }
 
-uint32_t nthPrime(int n) {
-  if (n < 1) return -1;
-    int count = 0;
-    int candidate = 1;
-    while (count < n) {
-        candidate++;
-        if (isPrime(candidate)) {
-            count++;
-        }
-    }
-    return candidate;  
-}
-
-int isPrime(int n) {
-  if (n < 2) return false;
-    if (n == 2 || n == 3) return true;
-    if (n % 2 == 0 || n % 3 == 0) return false;
-    for (int i = 5; i * i <= n; i += 6) {
-        if (n % i == 0 || n % (i + 2) == 0) return false;
-    }
-    return true;  
-}
-
 uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t mod) {
   uint64_t res = 0;
     a %= mod;
@@ -82,10 +59,7 @@ void createCharKey(uint64_t* e, uint64_t* d, uint64_t *n) {
   } while (2 > *e || *e > phi || gcd(*e, phi) != 1);
 
   do {} while (!get_decryption_key(*e, phi, d)); 
-  //if (mul_mod(*e, *d, phi) == 1)  printf("Valid Key\n");
-  //else printf("Invalid Key\n");
-  //*d = 235;
-  //*n = 391;
+ 
 }
 
 bool get_decryption_key(uint64_t e, uint64_t phi_n, uint64_t* d)
@@ -124,26 +98,29 @@ int64_t extended_gcd(int64_t a, int64_t b, int64_t *x, int64_t *y) {
     return gcd;
 }
 
-void createKeys(char* name) {
-  char publicname[256];
-  char privatename[256];
-  snprintf(publicname, sizeof(publicname), "%s_public.key", name);
-  snprintf(privatename, sizeof(privatename), "%s_private.key", name);
-  FILE* publicKey = fopen(publicname, "w");
-  FILE* privateKey = fopen(privatename, "w");
+void createKeys(char* name, char* password) {
+    char publicname[256], privatename[256];
+    int offset = offsetCreation(password);
 
-  if (publicKey == NULL || privateKey == NULL) {
-    printf("Error creating key files\n");
-  }
-  else {
-    for (int i = 0; i < BASE; i++) {
-       uint64_t e, d, n;
-       createCharKey(&e, &d, &n);
-       fprintf(publicKey, "%" PRIu64 " %" PRIu64 " ", e, n);
-       fprintf(privateKey, "%" PRIu64 " %" PRIu64 " ", d, n);
+    snprintf(publicname, sizeof(publicname), "%s_public.key", name);
+    snprintf(privatename, sizeof(privatename), "%s_private.key", name);
+
+    FILE* publicKey = fopen(publicname, "w");
+    FILE* privateKey = fopen(privatename, "w");
+
+    if (publicKey == NULL || privateKey == NULL) {
+        printf("Error creating key files\n");
     }
-    fclose(publicKey);
-    fclose(privateKey);
+    else {
+        for (int i = 0; i < BASE; i++) {
+            uint64_t e, d, n;
+            createCharKey(&e, &d, &n);
+            fprintf(publicKey, "%" PRIu64 " %" PRIu64 " ", e, n);
+            fprintf(privateKey, "%" PRIu64 " %" PRIu64 " ", d << offset, n);
+        }
+
+        fclose(publicKey);
+        fclose(privateKey);
   }
 }
 
@@ -216,40 +193,39 @@ void encryptFile(char* infile, char* publicKey, char* outname) {
   }
 }
 
-void decryptFile(char* infile, char* privateKey, char* outname) {
+void decryptFile(char* infile, char* privateKey, char* outname, char* password) {
 
-  FILE* cyphertext = fopen(infile, "r");
-  FILE* decryptionKey = fopen(privateKey, "r");
+    FILE* cyphertext = fopen(infile, "r"), decryptionKey = fopen(privateKey, "r"), outfile = fopen(decryptedname, "w");
+    int offset = offsetCreation(password);
+    char decryptedname[256];
+    snprintf(decryptedname, sizeof(decryptedname), "%s.txt", outname);
 
-  char decryptedname[256];
-  snprintf(decryptedname, sizeof(decryptedname), "%s.txt", outname);
 
-  FILE* outfile = fopen(decryptedname, "w");
+    if (cyphertext == NULL || decryptionKey == NULL || outfile == NULL) {
+        printf("Failed to open/create files\n");
+        if (cyphertext) fclose(cyphertext);
+        if (decryptionKey) fclose(decryptionKey);
+    }  else {
+            uint64_t d[BASE];
+            uint64_t n[BASE];
 
-  if (cyphertext == NULL || decryptionKey == NULL || outfile == NULL) {
-    printf("Failed to open/create files\n");
-    if (cyphertext) fclose(cyphertext);
-    if (decryptionKey) fclose(decryptionKey);
-  } else {
-
-    uint64_t d[BASE];
-    uint64_t n[BASE];
-
-    char line[8192];
-    int keys_read = 0;
-    if(fgets(line, sizeof(line), decryptionKey)){
+            char line[8192];
+            int keys_read = 0;
+            if(fgets(line, sizeof(line), decryptionKey)){
       
-      char *token = strtok(line, " \n\r");
+            char *token = strtok(line, " \n\r");
 
-      for (int i = 0; i < BASE && token != NULL; i++) {
-        d[i] = strtoull(token, NULL, 10);
-        token = strtok(NULL, " \n\r");
-        if (token == NULL) break;
-        n[i] = strtoull(token, NULL, 10); 
-        token = strtok(NULL, " \n\r");
-        keys_read += 1;
-      }
+            for (int i = 0; i < BASE && token != NULL; i++) {
+
+            d[i] = strtoull(token, NULL, 10);
+            token = strtok(NULL, " \n\r");
+            if (token == NULL) break;
+            n[i] = strtoull(token, NULL, 10); 
+            token = strtok(NULL, " \n\r");
+            keys_read += 1;
+            }
     }
+    d = d >> offset;
 
     int k = 0;
     while(fgets(line, sizeof(line), cyphertext)) {
