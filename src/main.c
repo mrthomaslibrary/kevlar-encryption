@@ -5,13 +5,7 @@
 #include <time.h>
 #include <unistd.h>
 
-typedef enum {
-CREATE_KEY,
-ENCRYPt_FILE,
-DECRYPT_FILE,
-HELP
-} Mode;
-
+//Help documentation command
 void displayHelp(void) {
   printf("Kevlar Encryption:\n");
   printf("\tCreate Keys\t|\t-c <key-names>\n");
@@ -20,10 +14,12 @@ void displayHelp(void) {
   printf("\tHelp\t\t|\t-h Prints This Message\n");
 }
 
+//Syntax error response
 void displaySyntaxError(void) {
   printf("Invalid use of command\n");
 }
 
+//Main function runs program and interprets flags
 int main(int argc, char* argv[]) {
   srand(time(NULL)); 
 
