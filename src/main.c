@@ -21,7 +21,7 @@ void displaySyntaxError(void) {
 
 //Prints version message
 void displayVersion(void) {
-  printf("Kevlar Encryption v0.2.0\n(c) 2026 mrthomaslibrary, gusballmanjr");
+  printf("Kevlar Encryption v0.2.0\n(c) 2026 mrthomaslibrary, gusballmanjr\n");
 };
 
 //Main function runs program and interprets flags

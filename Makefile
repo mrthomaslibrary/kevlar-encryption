@@ -2,7 +2,8 @@ CXX = clang
 CXXFLAGS = -Wall -std=c++17
 TARGET = kevlar
 TEST-TARGET = gorun
-INSTALL_PATH = /usr/local/bin
+ROOT_INSTALL_PATH = /usr/local/bin
+INSTALL_PATH = ~/bin/
 
 SRCS = $(wildcard src/*.c)
 
@@ -16,6 +17,7 @@ compile:
 
 install: compile
 	-sudo rm $(INSTALL_PATH)/$(TARGET)
+	sudo rm $(ROOT_INSTALL_PATH)/$(TARGET)
 	sudo cp $(TARGET) $(INSTALL_PATH)/
 	sudo chmod +x $(INSTALL_PATH)/$(TARGET)
 	@echo "Build complete and installed to $(INSTALL_PATH)"
