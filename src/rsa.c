@@ -171,12 +171,13 @@ void decryptFile(char* infile, char* privateKey, char* outname) {
     if(fgets(line, sizeof(line), decryptionKey)){
       
       char *token = strtok(line, " \n\r");
+      char *endptr;
 
       for (int i = 0; i < BASE && token != NULL; i++) {
-        d[i] = strtoull(token, NULL, 10);
+        d[i] = strtol(token, &endptr, 16);
         token = strtok(NULL, " \n\r");
         if (token == NULL) break;
-        n[i] = strtoull(token, NULL, 10); 
+        n[i] = strtol(token, &endptr, 16); 
         token = strtok(NULL, " \n\r");
         keys_read += 1;
       }
@@ -186,8 +187,9 @@ void decryptFile(char* infile, char* privateKey, char* outname) {
     int k = 0;
     while(fgets(line, sizeof(line), cyphertext)) {
       char* token = strtok(line, " \n\r");
+      char *endptr;
       while (token != NULL) {
-        uint64_t val = strtoull(token, NULL, 10);
+        uint64_t val = strtol(token, &endptr, 16);
         uint64_t decrypted_val = modular_pow(val, d[k % keys_read], n[k % keys_read]);
         fputc((char)decrypted_val, outfile);
         k += 1;
@@ -204,13 +206,15 @@ void decryptFile(char* infile, char* privateKey, char* outname) {
 
 //Uses encryption keys to encrypt a decrypted file and then saves it
 void encryptFile(char* infile, char* publicKey, char* outname) {
-
+ 
   //Open files
   FILE* plaintext = fopen(infile, "r");
   FILE* encryptionKey = fopen(publicKey, "r");
   char encryptedname[256];
   snprintf(encryptedname, sizeof(encryptedname), "%s_secure.rsenc", outname);
   FILE* outfile = fopen(encryptedname, "w");
+
+  
 
   //Check if files open correctly
   if (plaintext == NULL || encryptionKey == NULL || outfile == NULL) {
@@ -224,12 +228,14 @@ void encryptFile(char* infile, char* publicKey, char* outname) {
     fgets(line, sizeof(line), encryptionKey);
     char *token = strtok(line, " \n\r");
     int keys_read = 0;
+    char *endptr;
+
     for (int i = 0; i < BASE; i++) {
       if (token == NULL) break;
-      e[i] = strtoull(token, NULL, 10);
+      e[i] = strtol(token, &endptr, 16);
       token = strtok(NULL, " \n\r");
       if (token == NULL) break;
-      n[i] = strtoull(token, NULL, 10); 
+      n[i] = strtol(token, &endptr, 16); 
       token = strtok(NULL, " \n\r");
       keys_read += 1;
     }
@@ -241,7 +247,7 @@ void encryptFile(char* infile, char* publicKey, char* outname) {
         uint64_t value = (uint64_t) (unsigned char) line[i];
         uint64_t index = modular_pow((uint64_t) value, e[k % keys_read], n[k % keys_read]);
        
-        fprintf(outfile, "%lx", index);
+        fprintf(outfile, "%lx ", index);
         k += 1;
       }
     }
