@@ -19,12 +19,17 @@ void displaySyntaxError(void) {
   printf("Invalid use of command\n");
 }
 
+//Prints version message
+void displayVersion(void) {
+  printf("Kevlar Encryption v0.2.0\n(c) 2026 mrthomaslibrary, gusballmanjr");
+};
+
 //Main function runs program and interprets flags
 int main(int argc, char* argv[]) {
   srand(time(NULL)); 
 
   int opt;
-  while ((opt = getopt(argc, argv, "cedh")) != -1) {
+  while ((opt = getopt(argc, argv, "cedhv")) != -1) {
     switch(opt) {
       case 'c':
         createKeys(argv[2]);
@@ -37,6 +42,9 @@ int main(int argc, char* argv[]) {
         break;
       case 'h':
         displayHelp();
+        break;
+      case 'v':
+        displayVersion();
         break;
       default:
         displaySyntaxError();

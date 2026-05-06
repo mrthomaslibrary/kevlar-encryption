@@ -124,8 +124,8 @@ void createKeys(char* name) {
   //Open files
   char publicname[256];
   char privatename[256];
-  snprintf(publicname, sizeof(publicname), "%s_public.key", name);
-  snprintf(privatename, sizeof(privatename), "%s_private.key", name);
+  snprintf(publicname, sizeof(publicname), "%s_public.txt", name);
+  snprintf(privatename, sizeof(privatename), "%s_private.txt", name);
   FILE* publicKey = fopen(publicname, "w");
   FILE* privateKey = fopen(privatename, "w");
   if (publicKey == NULL || privateKey == NULL) {
@@ -211,10 +211,8 @@ void encryptFile(char* infile, char* publicKey, char* outname) {
   FILE* plaintext = fopen(infile, "r");
   FILE* encryptionKey = fopen(publicKey, "r");
   char encryptedname[256];
-  snprintf(encryptedname, sizeof(encryptedname), "%s_secure.rsenc", outname);
+  snprintf(encryptedname, sizeof(encryptedname), "%s_encrypted.txt", outname);
   FILE* outfile = fopen(encryptedname, "w");
-
-  
 
   //Check if files open correctly
   if (plaintext == NULL || encryptionKey == NULL || outfile == NULL) {
@@ -246,7 +244,6 @@ void encryptFile(char* infile, char* publicKey, char* outname) {
       for (int i = 0; i < strlen(line); i++) {
         uint64_t value = (uint64_t) (unsigned char) line[i];
         uint64_t index = modular_pow((uint64_t) value, e[k % keys_read], n[k % keys_read]);
-       
         fprintf(outfile, "%lx ", index);
         k += 1;
       }
