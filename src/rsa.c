@@ -136,8 +136,8 @@ void createKeys(char* name) {
     for (int i = 0; i < BASE; i++) {
        uint64_t e, d, n;
        createCharKey(&e, &d, &n);
-       fprintf(publicKey, "%" PRIu64 " %" PRIu64 " ", e, n);
-       fprintf(privateKey, "%" PRIu64 " %" PRIu64 " ", d, n);
+       fprintf(publicKey, "%lx %lx ", e, n);
+       fprintf(privateKey, "%lx %lx ", d, n);
     }
 
     //Close files
@@ -241,7 +241,7 @@ void encryptFile(char* infile, char* publicKey, char* outname) {
         uint64_t value = (uint64_t) (unsigned char) line[i];
         uint64_t index = modular_pow((uint64_t) value, e[k % keys_read], n[k % keys_read]);
        
-        fprintf(outfile, "%" PRIu64 " ", index);
+        fprintf(outfile, "%lx", index);
         k += 1;
       }
     }

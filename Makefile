@@ -1,9 +1,13 @@
 CXX = clang
 CXXFLAGS = -Wall -std=c++17
 TARGET = kevlar
+TEST-TARGET = gorun
 INSTALL_PATH = /usr/local/bin
 
 SRCS = $(wildcard src/*.c)
+
+test-compile:
+	$(CXX) $(SRCS) -o $(TEST-TARGET) -lm
 
 all: compile install
 
